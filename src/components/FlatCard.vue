@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card |  flex flex-col gap-y-1 min-w-[12rem] bg-[var(--card-bg-cl)] bg-clip-border rounded border border-solid border-sky-300 max-w-xs px-2 py-1 ">
+    class="card |  flex flex-col gap-y-1 min-w-[10rem] bg-[var(--card-bg-cl)] bg-clip-border rounded border border-solid border-sky-300 max-w-xs px-2 py-1 ">
     <div class="card-slider | max-w-xs w-full ">
         <AppCardSwiper
         :imageList="flatsStore.getImageListByFlatId(flat.flatId)"
