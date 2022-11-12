@@ -1,9 +1,10 @@
 <template>
   <div
-    class="card |  flex flex-col gap-y-1 min-w-[20rem] bg-[var(--card-bg-cl)] bg-clip-border rounded border border-solid border-sky-300 max-w-xs px-2 py-1 ">
+    class="card |  flex flex-col gap-y-1 min-w-[12rem] bg-[var(--card-bg-cl)] bg-clip-border rounded border border-solid border-sky-300 max-w-xs px-2 py-1 ">
     <div class="card-slider | max-w-xs w-full ">
         <AppCardSwiper
-        :imageList="flatsStore.flatsList"/>
+        :imageList="flatsStore.getImageListByFlatId(flat.flatId)"
+        :flatId="flat.flatId"/>
     </div>
     <div class="card-body | flex flex-col flex-auto gap-y-6 min-h-[1px]">
       <div class="card-body-top | flex justify-between">
@@ -51,6 +52,7 @@ export default {
   props: {
     flat: {
       Object, default: {
+        flatId: 0,
         price: 0,
         isFavorite: false,
         views: 0,
@@ -64,6 +66,7 @@ export default {
   },
   computed: {
     ...mapStores(useFlatsStore)
+
   },
 
 }

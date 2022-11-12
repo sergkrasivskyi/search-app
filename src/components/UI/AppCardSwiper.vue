@@ -10,8 +10,8 @@
     @swiper="onSwiper"
     @slideChange="onSlideChange">
 
-    <swiper-slide v-for="image in imageList"
-      :key="image.id"
+    <swiper-slide v-for="image, index in imageList"
+      :key="index"
       tag="img"
       :zoom='true'
       :src='image.image'
@@ -58,7 +58,8 @@ export default {
     , {id: 4, image: 'src/assets/images/0/4.jpg'}
     , {id: 5, image: 'src/assets/images/0/5.jpg'}
     , {id: 6, image: 'src/assets/images/0/6.jpg'}
-  ]}
+  ]},
+    flatId: {type: Number, default: undefined }
   },
   setup() {
     const onSwiper = (swiper) => {
@@ -73,6 +74,7 @@ export default {
       modules: [Navigation, Pagination, Scrollbar, A11y, Mousewheel, Parallax],
     };
   },
+
 };
 </script>
 <style scoped>
