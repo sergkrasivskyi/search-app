@@ -80,17 +80,29 @@ export const useFlatsStore = defineStore("flats", () => {
     { flatId: 3, id: 6, image: "src/assets/images/3/3.jpg" },
   ]);
 
-
-function getImageListByFlatId(flatId) {
-  return flatImageList.value.filter(elem => elem.flatId === flatId )
-}
+  function getImageListByFlatId(flatId) {
+    return flatImageList.value.filter((elem) => elem.flatId === flatId);
+  }
   function addFlat(flat) {
-    let item = { id: Date.now(), ...flat}
-    flatsList.value.push(...item);
+    let item = { id: Date.now(), ...flat };
+    flatList.value.push(...item);
   }
-  function increment() {
-    count.value++;
+  function getFilteredFlatList(filters) {
+    return flatList.value.filter(
+      (element) =>
+        filters.rooms.includes(element.rooms) &&
+        element.price > filters.priceStart &&
+        element.price < filters.priceEnd
+    );
+    
   }
 
-  return { flatList, flatImages, flatImageList, addFlat, getImageListByFlatId };
+  return {
+    flatList,
+    flatImages,
+    flatImageList,
+    addFlat,
+    getImageListByFlatId,
+    getFilteredFlatList,
+  };
 });
