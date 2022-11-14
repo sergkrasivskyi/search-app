@@ -50,6 +50,7 @@ export const useFlatsStore = defineStore("flats", () => {
       district: "Kharkiv, Shevchenkivsky",
     },
   ]);
+  let filteredList = ref([]);
   const flatImages = ref([
     { id: 0, image: "src/assets/images/0/0.jpg" },
     { id: 1, image: "src/assets/images/0/1.jpg" },
@@ -88,21 +89,33 @@ export const useFlatsStore = defineStore("flats", () => {
     flatList.value.push(...item);
   }
   function getFilteredFlatList(filters) {
-    return flatList.value.filter(
+    console.log(filters);
+    let result = flatList.value.filter(
       (element) =>
-        filters.rooms.includes(element.rooms) &&
-        element.price > filters.priceStart &&
-        element.price < filters.priceEnd
+        filters.rooms.includes(element.rooms.toString()) &&
+        element.price >= filters.priceStart &&
+        element.price <= filters.priceEnd
     );
+    console.log('result', result);
+    filteredList.value = [...result]
+    console.log("filteredList", filteredList);
+    return result
     
+  }
+  function searchDone(rooms, startPrice, endPrice) {
+    console.log("rooms", rooms);
+    console.log("startPrice", startPrice);
+    console.log("endPrice", endPrice);
   }
 
   return {
     flatList,
     flatImages,
     flatImageList,
+    filteredList,
     addFlat,
     getImageListByFlatId,
     getFilteredFlatList,
+    searchDone,
   };
 });

@@ -3,7 +3,7 @@
   type="button" 
   v-bind="$attrs" 
   @click="$emit('clickButton')">
-    <slot></slot>
+    <slot/>
   </button>
 </template>
 
