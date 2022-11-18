@@ -7,14 +7,21 @@
   </header> -->
 
   <!-- <RouterView /> -->
-  <SearchView/>
+  <div class="flex gap-x-4 ">
+    <SearchView class="basis-3/4"/>
+    <AppMap class="basis-1/4"/>
+
+  </div>
+
 
 </template>
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import SearchView from '@/views/SearchView.vue'
+import AppMap from '@/views/AppMap.vue'
 </script>
+
 
 <style scoped>
 header {

@@ -89,25 +89,22 @@ export const useFlatsStore = defineStore("flats", () => {
     flatList.value.push(...item);
   }
   function getFilteredFlatList(filters) {
-    console.log(filters);
-    let result = flatList.value.filter(
+    // filters - об'єкт зі значеннями фільтрів, де:
+      // filters.rooms - масив з кількостями кімнат, обраних у Search
+      // filters.priceStart та filters.priceEnd визначають діапазон
+      // ціни для пошуку
+    console.log('filters', filters);  
+    filteredList.value = flatList.value.filter(
       (element) =>
+        // за умови, що значення rooms кожної квартири (! переведене String)
+        //  входить до значень масиву, отриманого після натискання checkbox-ів,
+        //  та price кожної квартиризнаходиться в діапазоні
+        // введених цін між priceStart та priceEnd
         filters.rooms.includes(element.rooms.toString()) &&
         element.price >= filters.priceStart &&
         element.price <= filters.priceEnd
     );
-    console.log('result', result);
-    filteredList.value = [...result]
-    console.log("filteredList", filteredList);
-    return result
-    
   }
-  function searchDone(rooms, startPrice, endPrice) {
-    console.log("rooms", rooms);
-    console.log("startPrice", startPrice);
-    console.log("endPrice", endPrice);
-  }
-
   return {
     flatList,
     flatImages,
@@ -116,6 +113,5 @@ export const useFlatsStore = defineStore("flats", () => {
     addFlat,
     getImageListByFlatId,
     getFilteredFlatList,
-    searchDone,
   };
 });
