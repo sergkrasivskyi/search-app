@@ -1,4 +1,4 @@
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { defineStore } from "pinia";
 
 export const useFlatsStore = defineStore("flats", () => {
@@ -50,7 +50,7 @@ export const useFlatsStore = defineStore("flats", () => {
       district: "Kharkiv, Shevchenkivsky",
     },
   ]);
-  let filteredList = ref([]);
+  const filteredList = ref([]);
   const flatImages = ref([
     { id: 0, image: "src/assets/images/0/0.jpg" },
     { id: 1, image: "src/assets/images/0/1.jpg" },
@@ -80,7 +80,18 @@ export const useFlatsStore = defineStore("flats", () => {
     { flatId: 3, id: 6, image: "src/assets/images/3/2.jpg" },
     { flatId: 3, id: 6, image: "src/assets/images/3/3.jpg" },
   ]);
+  // працюємо з localStorage
+  // 
+  const userFilters = localStorage.getItem("userFilters");
+  if (userFilters)  console.log("userFilters: ", userFilters);
 
+  const flatInLocalStorage = localStorage.getItem("filteredList");
+  if (flatInLocalStorage) {
+    console.log("flatInLocalStorage", JSON.parse(flatInLocalStorage));
+  }
+watch(() => filteredList, (state) => {
+  localStorage.setItem("filteredList", JSON.stringify(state));
+}, {deep: true});
   function getImageListByFlatId(flatId) {
     return flatImageList.value.filter((elem) => elem.flatId === flatId);
   }
@@ -106,6 +117,7 @@ export const useFlatsStore = defineStore("flats", () => {
     );
   }
   return {
+    flatInLocalStorage,
     flatList,
     flatImages,
     flatImageList,

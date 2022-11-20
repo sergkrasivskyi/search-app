@@ -114,12 +114,23 @@ export default {
       if (!this.rooms.length) {
         this.isSearchComplete = false
       }
+
       return { priceStart: this.startPrice, priceEnd: this.endPrice, rooms: [...this.rooms] }
     }
   },
   methods: {
 
   },
+  watch: {
+    filters: {
+      handler(state) {
+        localStorage.setItem('userFilters', JSON.stringify(state))
+      }
+      ,
+      deep: true
+    }  
+    
+  }
 }
 </script>
 <style scoped>
