@@ -4,7 +4,9 @@ import FlatCard from '@/components/FlatCard.vue'
 import TheSearchNav from '@/components/TheSearchNav.vue'
 import AppSearchButton from '@/components/UI/AppSearchButton.vue'
 import { useFlatsStore } from '../stores/flats';
+import { useSheetsStore } from '../stores/sheets';
 const flatsStore = useFlatsStore()
+const sheetsStore = useSheetsStore()
 // let isSearchComplete = ref(false)
 </script>
 
@@ -22,7 +24,8 @@ const flatsStore = useFlatsStore()
         @buy="buy"
         @toRent="toRent"
         @toSell="toSell" -->
-        <TheSearchNav />
+        <TheSearchNav 
+          @toGetData="sheetsStore.getData"/>
 
         <div class="searcher | uppercase bg-yellow-100 px-5 py-3 rounded-lg">
           <div class="type-building | flex ">

@@ -13,6 +13,9 @@
         <app-search-button class="basis-1/4 rounded-lg"
         @clickButton="$emit('toSell')"
       >Продати</app-search-button>
+        <app-search-button class="basis-1/4 rounded-lg"
+        @clickButton="$emit('toGetData')"
+        >Отримати дані</app-search-button>
     </div>
 </template>
 
