@@ -105,17 +105,24 @@ export default {
   },
   computed: {
     filters() {
-      if (this.startPrice === '') {
-        this.startPrice = 0
-      }
-      if (this.endPrice === '') {
-        this.endPrice = 99999999
-      }
+      let startPrice = 0
+      this.startPrice === ''
+        ? startPrice = 0
+        : startPrice = this.startPrice
+
+      let endPrice = 0
+      this.endPrice === ''
+        ? endPrice = 99999999
+        : endPrice = this.endPrice
+      
       if (!this.rooms.length) {
         this.isSearchComplete = false
       }
 
-      return { priceStart: this.startPrice, priceEnd: this.endPrice, rooms: [...this.rooms] }
+      return {
+        priceStart: startPrice, 
+        priceEnd: endPrice, 
+        rooms: [...this.rooms] }
     }
   },
   methods: {

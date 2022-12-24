@@ -2,8 +2,7 @@ import { ref, computed, watch } from "vue";
 import { defineStore } from "pinia";
 
 export const useFlatsStore = defineStore("flats", () => {
-  const count = ref(0);
-  const doubleCount = computed(() => count.value * 2);
+
   const flatList = ref([
     {
       flatId: 0,
