@@ -1,12 +1,12 @@
 import { ref, computed, watch } from "vue";
 import { defineStore } from "pinia";
 
-export const useSheetsStore = defineStore('sheets', () => {
+export const useSheetsStore = defineStore("sheets", () => {
   const SHEET_ID = "1ZG-ztvd1TAbiRVE3s_efGRgNd6rVYTM_5E9UOeUCuoQ";
   const SHEET_TITLE = "flatList";
   // як визначити автоматично розмір діапазону?
   const SHEET_RANGE = "B1:J14"; // наразі розмір такий
-  
+
   const FULL_URL =
     "https://docs.google.com/spreadsheets/d/" +
     SHEET_ID +
@@ -14,21 +14,30 @@ export const useSheetsStore = defineStore('sheets', () => {
     SHEET_TITLE +
     "&range=" +
     SHEET_RANGE;
-  let sheetsList = {}
-    async function getData() {
+  let sheetsList = {};
+  async function getData() {
     await fetch(FULL_URL)
-    .then((res) => res.text())
-    .then((rep) => {
-      console.log(rep);
-      let data = JSON.parse(rep.substr(47).slice(0, -2));
-      // console.log('data:', data.table);
-      sheetsList.cols = {...data.table.cols}
-      sheetsList.rows = {...data.table.rows}
-      console.log("sheetsList:", sheetsList);
+      .then((res) => res.text())
+      .then((rep) => {
+        let data = JSON.parse(rep.substring(47).slice(0, -2));
+        // console.log('data:', data.table);
+        sheetsList.cols = { ...data.table.cols };
+        sheetsList.rows = { ...data.table.rows };
+        console.log("sheetsList:", sheetsList);
+        console.log("sheetsList.rows:", sheetsList.rows);
+        console.log("sheetsList.cols:", sheetsList.cols);
       });
   }
-  return {getData, sheetsList}
-})
+  let flatsSheetList = computed(() => {
+    let result = [];
+    for (flat in sheetsList.rows) {
+      // console.log("flat:", flat.c);
+      result.push(flat.c);
+    }
+    return result;
+  });
+  return { getData, sheetsList, flatsSheetList };
+});
 // Зробити запрос у таблицю
 // fetch(FULL_URL)
 //   .then((res) => res.text())
