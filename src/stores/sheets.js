@@ -14,17 +14,36 @@ export const useSheetsStore = defineStore("sheets", () => {
     SHEET_TITLE +
     "&range=" +
     SHEET_RANGE;
-  let sheetsList = {};
+  let sheetsList = ref({ rows: [], cols: [] });
   async function getData() {
     await fetch(FULL_URL)
       .then((res) => res.text())
       .then((rep) => {
         let data = JSON.parse(rep.substring(47).slice(0, -2));
         // console.log('data:', data.table);
-        sheetsList.cols = { ...data.table.cols };
-        sheetsList.rows = { ...data.table.rows };
+        // sheetsList.cols = [...data.table.cols];
+        for (const id in data.table.rows) {
+            // console.log("data.table.rows[id]", data.table.rows[id].c);
+            // sheetsList.value.rows.push(data.table.rows[id].c);
+            // }
+              let flat = {
+                flatId,
+                price,
+                isFavorite,
+                views,
+                title,
+                crmNumber,
+                square,
+                rooms,
+                district
+              } = data.table.rows[id];
+              console.log(flat);
+              // sheetsList.value.rows.push(flat);
+              // const element = data.table.cols[key];
+        }
+        // sheetsList.rows = [...data.table.rows];
         console.log("sheetsList:", sheetsList);
-        console.log("sheetsList.rows:", sheetsList.rows);
+        console.log("sheetsList.rows:", sheetsList.value.rows);
         console.log("sheetsList.cols:", sheetsList.cols);
         // зробити обєкт з даними у зручному форматі 
         const result = [];
@@ -40,6 +59,7 @@ export const useSheetsStore = defineStore("sheets", () => {
       });
     console.log("type of sheetsList.rows", typeof sheetsList.rows);
   }
+<<<<<<< Updated upstream
   // let flatsSheetList = computed(() => {
   //   const result = [];
   //   for (flat in sheetsList.rows) {
@@ -56,6 +76,29 @@ export const useSheetsStore = defineStore("sheets", () => {
     sheetsList,
     // flatsSheetList
   };
+=======
+  const flatsSheetList = computed(() => {
+    let result = [];
+    for (let flat in sheetsList.rows) {
+      console.log("flat:", flat.c);
+      // result.push(flat.c);
+    }
+    return result;
+  });
+  const flatsSheetListArray = computed(() => {
+    let result = [];
+    // console.log("sheetsList.rows.length:", sheetsList.rows.length);
+    // for (let i = 0; i < sheetsList.rows.length; i++) {
+      // console.log(`sheetsList.rows[${i}].c:`, sheetsList.rows[i].c);
+      // if (Object.hasOwnProperty.call(sheetsList.rows, flat)) {
+      // result.push(sheetsList.rows[i].c);
+      // }
+    // }
+    return result;
+  });
+
+  return { getData, sheetsList, flatsSheetList, flatsSheetListArray };
+>>>>>>> Stashed changes
 });
 // Зробити запрос у таблицю
 // fetch(FULL_URL)
