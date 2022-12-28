@@ -20,46 +20,81 @@ export const useSheetsStore = defineStore("sheets", () => {
       .then((res) => res.text())
       .then((rep) => {
         let data = JSON.parse(rep.substring(47).slice(0, -2));
-        // console.log('data:', data.table);
-        // sheetsList.cols = [...data.table.cols];
-        for (const id in data.table.rows) {
-            // console.log("data.table.rows[id]", data.table.rows[id].c);
-            // sheetsList.value.rows.push(data.table.rows[id].c);
-            // }
-              let flat = {
-                flatId,
-                price,
-                isFavorite,
-                views,
-                title,
-                crmNumber,
-                square,
-                rooms,
-                district
-              } = data.table.rows[id];
-              console.log(flat);
-              // sheetsList.value.rows.push(flat);
-              // const element = data.table.cols[key];
-        }
-        // sheetsList.rows = [...data.table.rows];
-        console.log("sheetsList:", sheetsList);
-        console.log("sheetsList.rows:", sheetsList.value.rows);
-        console.log("sheetsList.cols:", sheetsList.cols);
-        // зробити обєкт з даними у зручному форматі 
-        const result = [];
-        for (let row in sheetsList.rows) {
-          console.log("flat:", Object.keys(row));
-          console.log(typeof row);
-          // console.log("flat.c", flat.c);
-          for (field in row.c) {
-            console.log("field:", field.v);
-            result.push(field.v);
+        console.log("data:", data);
+        console.log("data keys:", Object.keys(data));
+        let table = data.table;
+        console.log("table:", table);
+        console.log("table keys:", Object.keys(table));
+        let rows = table.rows; // Array
+        console.log("rows[1].c[0]:", rows[1].c[0].v); // flatID
+        console.log("rows[1].c[1]:", rows[1].c[1].v); // price
+        console.log("rows.length:", rows.length);
+        console.log("rows keys:", Object.keys(rows));
+        // rows[i] - кожен рядок - окрема квартира
+        // rows[i].c[j] - поля кожної квартири -
+        // flat = {
+        //   flatId,
+        //   price,
+        //   isFavorite,
+        //   views,
+        //   title,
+        //   crmNumber,
+        //   square,
+        //   rooms,
+        //   district,
+        // };
+        for (let i = 0; i < rows.length; i++) {
+          for (let j = 0; j < rows[j].c.length; j++) {
+            console.log(`rows[${i}].c[${j}]:`, rows[i].c[j].v);
+            flatId = rows[i].c[0].v; 
+            price = rows[i].c[1].v; 
+            isFavorite = rows[i].c[2].v; 
+            views = rows[i].c[3].v; 
+            title = rows[i].c[4].v;
+            crmNumber = rows[i].c[5].v;
+            square = rows[i].c[6].v;
+            rooms = rows[i].c[7].v;
+            district = rows[i].c[8].v;
           }
         }
+        // sheetsList.cols = [...data.table.cols];
+        // for (const id in data.table.rows) {
+        // console.log("data.table.rows[id]", data.table.rows[id].c);
+        // sheetsList.value.rows.push(data.table.rows[id].c);
+        // }
+        // let flat = {
+        //   flatId,
+        //   price,
+        //   isFavorite,
+        //   views,
+        //   title,
+        //   crmNumber,
+        //   square,
+        //   rooms,
+        //   district
+        // } = data.table.rows[id];
+        // console.log(flat);
+        // sheetsList.value.rows.push(flat);
+        // const element = data.table.cols[key];
+        // }
+        // sheetsList.rows = [...data.table.rows];
+        // console.log("sheetsList:", sheetsList);
+        // console.log("sheetsList.rows:", sheetsList.value.rows);
+        // console.log("sheetsList.cols:", sheetsList.cols);
+        // зробити обєкт з даними у зручному форматі
+        // const result = [];
+        // for (let row in sheetsList.rows) {
+        //   console.log("flat:", Object.keys(row));
+        //   console.log(typeof row);
+        //   // console.log("flat.c", flat.c);
+        //   for (field in row.c) {
+        //     console.log("field:", field.v);
+        //     result.push(field.v);
+        //   }
+        // }
       });
     console.log("type of sheetsList.rows", typeof sheetsList.rows);
   }
-<<<<<<< Updated upstream
   // let flatsSheetList = computed(() => {
   //   const result = [];
   //   for (flat in sheetsList.rows) {
@@ -76,29 +111,6 @@ export const useSheetsStore = defineStore("sheets", () => {
     sheetsList,
     // flatsSheetList
   };
-=======
-  const flatsSheetList = computed(() => {
-    let result = [];
-    for (let flat in sheetsList.rows) {
-      console.log("flat:", flat.c);
-      // result.push(flat.c);
-    }
-    return result;
-  });
-  const flatsSheetListArray = computed(() => {
-    let result = [];
-    // console.log("sheetsList.rows.length:", sheetsList.rows.length);
-    // for (let i = 0; i < sheetsList.rows.length; i++) {
-      // console.log(`sheetsList.rows[${i}].c:`, sheetsList.rows[i].c);
-      // if (Object.hasOwnProperty.call(sheetsList.rows, flat)) {
-      // result.push(sheetsList.rows[i].c);
-      // }
-    // }
-    return result;
-  });
-
-  return { getData, sheetsList, flatsSheetList, flatsSheetListArray };
->>>>>>> Stashed changes
 });
 // Зробити запрос у таблицю
 // fetch(FULL_URL)
