@@ -26,17 +26,36 @@ export const useSheetsStore = defineStore("sheets", () => {
         console.log("sheetsList:", sheetsList);
         console.log("sheetsList.rows:", sheetsList.rows);
         console.log("sheetsList.cols:", sheetsList.cols);
+        // зробити обєкт з даними у зручному форматі 
+        const result = [];
+        for (let row in sheetsList.rows) {
+          console.log("flat:", Object.keys(row));
+          console.log(typeof row);
+          // console.log("flat.c", flat.c);
+          for (field in row.c) {
+            console.log("field:", field.v);
+            result.push(field.v);
+          }
+        }
       });
+    console.log("type of sheetsList.rows", typeof sheetsList.rows);
   }
-  let flatsSheetList = computed(() => {
-    let result = [];
-    for (flat in sheetsList.rows) {
-      // console.log("flat:", flat.c);
-      result.push(flat.c);
-    }
-    return result;
-  });
-  return { getData, sheetsList, flatsSheetList };
+  // let flatsSheetList = computed(() => {
+  //   const result = [];
+  //   for (flat in sheetsList.rows) {
+  //     console.log(typeof flat);
+  // for (let field in flat.c) {
+  //   result.push(field.v);
+  //   console.log("field:", flat.v);
+  // }
+  // }
+  // return result;
+  // });
+  return {
+    getData,
+    sheetsList,
+    // flatsSheetList
+  };
 });
 // Зробити запрос у таблицю
 // fetch(FULL_URL)
