@@ -4,8 +4,8 @@ import { defineStore } from "pinia";
 export const useSheetsStore = defineStore("sheets", () => {
   const SHEET_ID = "1ZG-ztvd1TAbiRVE3s_efGRgNd6rVYTM_5E9UOeUCuoQ";
   const SHEET_TITLE = "flatList";
-  // як визначити автоматично розмір діапазону?
-  const SHEET_RANGE = "B1:J14"; // наразі розмір такий
+  //todo як визначити автоматично розмір діапазону?
+  const SHEET_RANGE = "B1:J16"; // наразі розмір такий
 
   const FULL_URL =
     "https://docs.google.com/spreadsheets/d/" +
@@ -15,6 +15,7 @@ export const useSheetsStore = defineStore("sheets", () => {
     "&range=" +
     SHEET_RANGE;
   let sheetsList = ref({ rows: [], cols: [] });
+  const flatFromSheetList = ref([]);
   async function getData() {
     await fetch(FULL_URL)
       .then((res) => res.text())
@@ -44,18 +45,21 @@ export const useSheetsStore = defineStore("sheets", () => {
         //   district,
         // };
         for (let i = 0; i < rows.length; i++) {
-          for (let j = 0; j < rows[j].c.length; j++) {
-            console.log(`rows[${i}].c[${j}]:`, rows[i].c[j].v);
-            flatId = rows[i].c[0].v; 
-            price = rows[i].c[1].v; 
-            isFavorite = rows[i].c[2].v; 
-            views = rows[i].c[3].v; 
-            title = rows[i].c[4].v;
-            crmNumber = rows[i].c[5].v;
-            square = rows[i].c[6].v;
-            rooms = rows[i].c[7].v;
-            district = rows[i].c[8].v;
-          }
+          // for (let j = 0; j < rows[j].c.length; j++) {
+          // console.log(`rows[${i}].c[${j}]:`, rows[i].c[j].v);
+
+          flatFromSheetList.value.push({
+            flatId: rows[i].c[0].v,
+            price: rows[i].c[1].v,
+            isFavorite: rows[i].c[2].v,
+            views: rows[i].c[3].v,
+            title: rows[i].c[4].v,
+            crmNumber: rows[i].c[5].v,
+            square: rows[i].c[6].v,
+            rooms: rows[i].c[7].v,
+            district: rows[i].c[8].v,
+          });
+          // }
         }
         // sheetsList.cols = [...data.table.cols];
         // for (const id in data.table.rows) {
@@ -109,6 +113,7 @@ export const useSheetsStore = defineStore("sheets", () => {
   return {
     getData,
     sheetsList,
+    flatFromSheetList,
     // flatsSheetList
   };
 });
