@@ -3,21 +3,30 @@ import { defineStore } from "pinia";
 
 export const useSheetsStore = defineStore("sheets", () => {
   const SHEET_ID = "1ZG-ztvd1TAbiRVE3s_efGRgNd6rVYTM_5E9UOeUCuoQ";
+  const URL_BASE = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?`;
   const SHEET_TITLE = "flatList";
   //todo як визначити автоматично розмір діапазону?
+  //* спробувати без визначення діапазону
   const SHEET_RANGE = "B1:J16"; // наразі розмір такий
 
-  const FULL_URL =
-    "https://docs.google.com/spreadsheets/d/" +
-    SHEET_ID +
-    "/gviz/tq?sheet=" +
-    SHEET_TITLE +
-    "&range=" +
-    SHEET_RANGE;
+  const QUERY = encodeURIComponent('Select *')
+  // const FULL_URL =
+  //   "https://docs.google.com/spreadsheets/d/" +
+  //   SHEET_ID +
+  //   "/gviz/tq?sheet=" +
+  //   SHEET_TITLE 
+  //   +
+  //   "&range=" +
+  //   SHEET_RANGE;
+  const URL_TO_USE = `${URL_BASE}&sheet=${SHEET_TITLE}&tq=${QUERY}`
   let sheetsList = ref({ rows: [], cols: [] });
   const flatFromSheetList = ref([]);
+  function doGet() {
+    return 
+  }
   async function getData() {
-    await fetch(FULL_URL)
+    // await fetch(FULL_URL)
+    await fetch(URL_TO_USE)
       .then((res) => res.text())
       .then((rep) => {
         let data = JSON.parse(rep.substring(47).slice(0, -2));
@@ -27,8 +36,8 @@ export const useSheetsStore = defineStore("sheets", () => {
         console.log("table:", table);
         console.log("table keys:", Object.keys(table));
         let rows = table.rows; // Array
-        console.log("rows[1].c[0]:", rows[1].c[0].v); // flatID
-        console.log("rows[1].c[1]:", rows[1].c[1].v); // price
+        console.log("rows[1].c[0]:", rows[1].c[0]?.v); // flatID
+        console.log("rows[1].c[1]:", rows[1].c[1]?.v); // price
         console.log("rows.length:", rows.length);
         console.log("rows keys:", Object.keys(rows));
         // rows[i] - кожен рядок - окрема квартира
@@ -45,12 +54,13 @@ export const useSheetsStore = defineStore("sheets", () => {
         //   district,
         // };
         for (let i = 0; i < rows.length; i++) {
+          // * використати forEach
           // for (let j = 0; j < rows[j].c.length; j++) {
           // console.log(`rows[${i}].c[${j}]:`, rows[i].c[j].v);
 
           flatFromSheetList.value.push({
-            flatId: rows[i].c[0].v,
-            price: rows[i].c[1].v,
+            flatId: rows[i].c[0]?.v,
+            price: rows[i].c[1]?.v,
             isFavorite: rows[i].c[2].v,
             views: rows[i].c[3].v,
             title: rows[i].c[4].v,
